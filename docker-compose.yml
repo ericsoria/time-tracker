@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+    mysql:
+      image: mysql:8
+      container_name: ${APP_NAME}-mysql
+      working_dir: ${WORKING_DIR}
+      volumes:
+        - ./docker/mysql/data:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      ports:
+        - ${MYSQL_EXTERNAL_PORT}:${MYSQL_INTERNAL_PORT}
+
+    webserver:
+      image: nginx:alpine
+      container_name: ${APP_NAME}-webserver
+      working_dir: ${WORKING_DIR}
+      volumes:
+          - .:${WORKING_DIR}
+          - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+        - ${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}
+
+    php-fpm:
+      build: docker/php-fpm
+      container_name: ${APP_NAME}-php-fpm
+      working_dir: ${WORKING_DIR}
+      volumes:
+        - .:${WORKING_DIR}
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+        - ./docker/php-fpm/20-xdebug.ini:/etc/php/7.3/cli/conf.d/20-xdebug.ini
+      environment:
+          - PHP_IDE_CONFIG=serverName=DOCKER
