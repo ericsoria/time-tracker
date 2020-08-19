@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use TimeTracker\Task\Domain\TaskRepository;
+use TimeTracker\Task\Infrastructure\Persistence\TaskRepositoryRaw;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            TaskRepository::class,
+            TaskRepositoryRaw::class
+        );
     }
 
     /**
