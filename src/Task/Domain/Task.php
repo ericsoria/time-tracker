@@ -35,7 +35,7 @@ class Task
             $name,
             new StartTime(null),
             new EndTime(null),
-            new TaskStatus('stopped')
+            new TaskStatus('initialized')
         );
     }
 
@@ -62,6 +62,17 @@ class Task
     public function status(): TaskStatus
     {
         return $this->status;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id()->value(),
+            'name' => $this->name()->value(),
+            'startTime' => $this->startTime()->value(),
+            'endTime' => $this->endTime()->value(),
+            'status' => $this->status()->value()
+        ];
     }
 
 }

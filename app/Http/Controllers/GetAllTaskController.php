@@ -1,19 +1,17 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use TimeTracker\Task\Application\Create\TaskCreator;
-use TimeTracker\Task\Domain\ValueObjects\TaskId;
-use TimeTracker\Task\Domain\ValueObjects\TaskName;
+use TimeTracker\Task\Application\Getter\TaskGetter;
 
 class GetAllTaskController extends Controller
 {
-    public function __invoke(TaskFinder $taskFinder)
+    public function __invoke(TaskGetter $taskGetter)
     {
-                ///
+        //We can use a DTO to mapper to json response automatically
+        return $taskGetter
+            ->__invoke()->map( function($item) {
+                return $item->toArray();
+            });
     }
 }

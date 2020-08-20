@@ -7,6 +7,7 @@ namespace TimeTracker\Task\Infrastructure\Persistence;
 use Illuminate\Support\Facades\DB;
 use TimeTracker\Task\Domain\Task;
 use TimeTracker\Task\Domain\TaskRepository;
+use TimeTracker\Task\Domain\Tasks;
 use TimeTracker\Task\Domain\ValueObjects\EndDate;
 use TimeTracker\Task\Domain\ValueObjects\EndTime;
 use TimeTracker\Task\Domain\ValueObjects\StartDate;
@@ -36,12 +37,36 @@ class TaskRepositoryRaw implements TaskRepository
     {
         $task = DB::table(self::TABLE)
             ->where('id', $id->value())
-            ->first();
+            ->get()
+            ->toArray();
 
         if (!$task) {
             return null;
         }
 
+        return $this
+            ->rawToEntity(
+                get_object_vars($task[0])
+            );
+    }
+
+    public function all(): Tasks
+    {
+        $tasks = DB::table(self::TABLE)
+            ->get();
+
+        $entities = [];
+        foreach ($tasks as $task) {
+            $entities[] = $this->rawToEntity(
+                get_object_vars($task)
+            );
+        }
+
+        return new Tasks($entities);
+    }
+
+    private function rawToEntity(array $task): Task
+    {
         return new Task(
             new TaskId($task['id']),
             new TaskName($task['name']),

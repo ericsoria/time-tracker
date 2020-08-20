@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,7 +13,7 @@ class CreateTaskController extends Controller
     public function __invoke(TaskCreator $taskCreator, Request $request)
     {
         /**
-         * Can We apply cqrs sending a command/query(DTO) to bus and mapping value objects on handler
+         * We can apply cqrs sending a command/query(DTO) to bus and mapping value objects on handler
          * https://github.com/thephpleague/tactician
          */
 
