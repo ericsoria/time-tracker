@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace TimeTracker\Common\Domain\ValueObjects;
 
@@ -8,18 +7,13 @@ abstract class DateTimeValue
 {
     protected $value;
 
-    public function __construct(string $value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
 
-    public function value(): string
+    public function value()
     {
         return $this->value;
-    }
-
-    public function __toString()
-    {
-        return $this->value();
     }
 }

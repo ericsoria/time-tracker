@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TimeTracker\Common\Domain\ValueObjects;
 
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 abstract class UuidValue
 {
@@ -23,8 +23,8 @@ abstract class UuidValue
 
     private function checkUuid($value)
     {
-        if (!Uuid::isValid($value)) {
-            throw new \Exception('Id is not valid');
+        if (!Str::isUuid($value)) {
+            throw new \Exception('Id is not valid - '.$value);
         }
     }
     public function __toString()

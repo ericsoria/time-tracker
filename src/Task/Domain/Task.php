@@ -30,7 +30,13 @@ class Task
 
     public static function create(TaskId $id, TaskName $name): Task
     {
-        return new self($id, $name, null, null, new TaskStatus('created'));
+        return new self(
+            $id,
+            $name,
+            new StartTime(null),
+            new EndTime(null),
+            new TaskStatus('stopped')
+        );
     }
 
     public function id(): TaskId

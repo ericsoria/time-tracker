@@ -23,11 +23,11 @@ class TaskRepositoryRaw implements TaskRepository
     {
         DB::table(self::TABLE)->insert(
             [
-                'id' => $task->id(),
-                'name' => $task->name(),
-                'start_time' => $task->startTime(),
-                'end_time' => $task->endTime(),
-                'status' => $task->status(),
+                'id' => $task->id()->value(),
+                'name' => $task->name()->value(),
+                'start_time' => $task->startTime()->value(),
+                'end_time' => $task->endTime()->value(),
+                'status' => $task->status()->value(),
             ]
         );
     }
