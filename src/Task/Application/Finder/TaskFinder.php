@@ -10,7 +10,7 @@ use TimeTracker\Task\Domain\ValueObjects\TaskId;
 
 class TaskFinder
 {
-    private $repository;
+    private TaskRepository $repository;
 
     public function __construct(TaskRepository $repository)
     {
@@ -19,10 +19,10 @@ class TaskFinder
 
     public function __invoke(TaskId $id): Task
     {
-        $task = $this->repository->find($id);
+        $task =  $this->repository->find($id);
 
         if (null === $task) {
-            throw new \Exception('Task doesn\'t exist');
+            throw new \Exception('Task doen\'t exist');
         }
 
         return $task;

@@ -4,38 +4,29 @@ declare(strict_types = 1);
 
 namespace TimeTracker\Task\Domain;
 
-use TimeTracker\Task\Domain\ValueObjects\EndTime;
-use TimeTracker\Task\Domain\ValueObjects\StartTime;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskName;
-use TimeTracker\Task\Domain\ValueObjects\TaskStatus;
 
 class Task
 {
 
-    private $id;
-    private $name;
-    private $startTime;
-    private $endTime;
-    private $status;
+    private TaskId $id;
+    private TaskName $name;
+    private TaskTimers $taskTimers;
 
-    public function __construct(TaskId $id, TaskName $name, StartTime $startTime, EndTime $endTime, TaskStatus $status)
+    public function __construct(TaskId $id, TaskName $name, TaskTimers $taskTimers)
     {
         $this->id        = $id;
         $this->name      = $name;
-        $this->startTime = $startTime;
-        $this->endTime   = $endTime;
-        $this->status    = $status;
+        $this->taskTimers = $taskTimers;
     }
 
     public static function create(TaskId $id, TaskName $name): Task
     {
         return new self(
             $id,
-            $name,
-            new StartTime(null),
-            new EndTime(null),
-            new TaskStatus('initialized')
+            $name.
+            new TaskTimers()
         );
     }
 
@@ -49,19 +40,9 @@ class Task
         return $this->name;
     }
 
-    public function startTime(): StartTime
+    public function taskTimers(): TaskTimers
     {
-        return $this->startTime;
-    }
-
-    public function endTime(): EndTime
-    {
-        return $this->endTime;
-    }
-
-    public function status(): TaskStatus
-    {
-        return $this->status;
+        return $this->taskTimers;
     }
 
     public function toArray()
@@ -69,9 +50,9 @@ class Task
         return [
             'id' => $this->id()->value(),
             'name' => $this->name()->value(),
-            'startTime' => $this->startTime()->value(),
-            'endTime' => $this->endTime()->value(),
-            'status' => $this->status()->value()
+            'task_timers' => $this->taskTimers()->map( function($taskTimers) {
+                return $taskTimers->toArray();
+            })
         ];
     }
 

@@ -3,13 +3,12 @@
 
 namespace TimeTracker\Task\Application\Getter;
 
-
 use TimeTracker\Task\Domain\TaskRepository;
 use TimeTracker\Task\Domain\Tasks;
 
 class TaskGetter
 {
-    private $repository;
+    private TaskRepository $repository;
 
     public function __construct(TaskRepository $repository)
     {

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::name('tasks.')->prefix('tasks')->group(function () {
-    Route::post('/', 'CreateTaskController')->name('create');
+    Route::post('/', 'StartTaskController')->name('start');
     Route::get('/', 'GetAllTaskController')->name('get');
     Route::get('/{taskId}', 'FindTaskController')->name('find');
 });

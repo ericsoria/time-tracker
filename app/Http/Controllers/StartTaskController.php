@@ -8,7 +8,7 @@ use TimeTracker\Task\Application\Create\TaskCreator;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskName;
 
-class CreateTaskController extends Controller
+class StartTaskController extends Controller
 {
     public function __invoke(TaskCreator $taskCreator, Request $request)
     {
