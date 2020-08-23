@@ -14,7 +14,6 @@ class TaskTimeResponseConverter
             $taskTime->id()->value(),
             $taskTime->taskId()->value(),
             $taskTime->dateTime()->value(),
-            $taskTime->dateTime()->value(),
             $taskTime->startTime()->value(),
             $taskTime->endTime()->value(),
             $taskTime->status(),

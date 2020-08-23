@@ -88,6 +88,9 @@ export default {
 </script>
 
 <style>
+    html, body {
+        height: 100%;
+    }
     #app {
         background: #f6f9fc;
         width: 100%;
