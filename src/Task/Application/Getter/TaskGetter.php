@@ -15,8 +15,14 @@ class TaskGetter
         $this->repository = $repository;
     }
 
-    public function __invoke() : Tasks
+    public function __invoke()
     {
-        return $this->repository->all();
+        $tasks = $this->repository->all();
+        $response = [];
+        foreach ($tasks as $task) {
+            $response[] = (new TaskResponseConverter())->__invoke($task);
+        }
+        return collect($response);
+
     }
 }

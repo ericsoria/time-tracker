@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use TimeTracker\Task\Application\Create\TaskCreator;
+use TimeTracker\Task\Domain\ValueObjects\DateTime as DomainDateTime;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskName;
 
@@ -19,7 +20,8 @@ class StartTaskController extends Controller
 
         $taskCreator->create(
             new TaskId(Str::Uuid()),
-            new TaskName($request->name)
+            new TaskName($request->name),
+            new DomainDateTime( (new \DateTime())->format('Y-m-d H:i:s')),
         );
     }
 }

@@ -28,7 +28,7 @@ class TaskTimeCreator
 
     public function create(TaskTimeId $id, TaskId $taskId)
     {
-        $this->taskFinder->__invoke($taskId);
+        //$this->taskFinder->__invoke($taskId);
 
         $now = new DateTime();
 

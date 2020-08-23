@@ -18,8 +18,11 @@ const store = new Vuex.Store({
                 context.commit('addTasks', response.data);
             });
         },
-        createTask(context, taskName) {
-            window.axios.post('/api/tasks','name='+taskName).then( (response) => {
+        async createTask(context, data) {
+            return await window.axios.post('/api/tasks', data);
+        },
+        async stopTask(context, taskName) {
+            return await window.axios.get('/api/tasks/'+taskName+'/stop',).then( (response) => {
                 console.log(response);
             });
         }

@@ -6,11 +6,12 @@ namespace TimeTracker\Task\Infrastructure\Persistence;
 
 use Illuminate\Support\Facades\DB;
 use TimeTracker\Common\Infrastructure\Persistence\Repository;
+use TimeTracker\Task\Application\Finder\TaskTimeFinder;
 use TimeTracker\Task\Domain\Task;
 use TimeTracker\Task\Domain\TaskRepository;
 use TimeTracker\Task\Domain\Tasks;
-use TimeTracker\Task\Domain\TaskTimeRepository;
 use TimeTracker\Task\Domain\TaskTimers;
+use TimeTracker\Task\Domain\ValueObjects\DateTime;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskName;
 
@@ -18,19 +19,14 @@ use TimeTracker\Task\Domain\ValueObjects\TaskName;
 class TaskRepositoryRaw extends Repository implements TaskRepository
 {
     protected const TABLE = 'tasks';
-    private TaskTimeRepository $taskTimeRepository;
-
-    public function __construct(TaskTimeRepository $taskTimeRepository)
-    {
-        $this->taskTimeRepository = $taskTimeRepository;
-    }
 
     public function save(Task $task): void
     {
         DB::table(self::TABLE)->insert(
             [
                 'id' => $task->id()->value(),
-                'name' => $task->name()->value()
+                'name' => $task->name()->value(),
+                'datetime' => $task->dateTime()->value()
             ]
         );
     }
@@ -46,8 +42,7 @@ class TaskRepositoryRaw extends Repository implements TaskRepository
             return null;
         }
 
-        $task[0]->task_timers  = $this->taskTimeRepository
-            ->findByTaskId(new TaskId($task[0]->id));
+        $task[0]->task_timers = $this->getTaskTimers($task[0]->id);
 
         return $this
             ->rawToEntity(
@@ -58,12 +53,12 @@ class TaskRepositoryRaw extends Repository implements TaskRepository
     public function all(): Tasks
     {
         $tasks = DB::table(self::TABLE)
+            ->orderBy('datetime', 'DESC')
             ->get();
 
         $entities = [];
         foreach ($tasks as $task) {
-            $task->task_timers  = $this->taskTimeRepository
-                ->findByTaskId(new TaskId($task->id));
+            $task->task_timers  = $this->getTaskTimers($task->id);
 
             $entities[] = $this->rawToEntity(
                 get_object_vars($task)
@@ -78,6 +73,7 @@ class TaskRepositoryRaw extends Repository implements TaskRepository
         return new Task(
             new TaskId($task['id']),
             new TaskName($task['name']),
+            new DateTime($task['datetime']),
             isset($task['task_timers'])
                 ? $task['task_timers']
                 : new TaskTimers()
@@ -87,7 +83,7 @@ class TaskRepositoryRaw extends Repository implements TaskRepository
     public function byName(TaskName $taskName): ?Task
     {
         $task = DB::table(self::TABLE)
-            ->where('name', 'LIKE', '%' . $taskName->value() . '%')
+            ->whereRaw('trim(lower(name)) = trim(lower("'.$taskName.'"))')
             ->get()
             ->toArray();
 
@@ -95,12 +91,17 @@ class TaskRepositoryRaw extends Repository implements TaskRepository
             return null;
         }
 
-        $task[0]->task_timers  = $this->taskTimeRepository
-            ->findByTaskId(new TaskId($task[0]->id));
+        $task[0]->task_timers  = $this->getTaskTimers($task[0]->id);
 
         return $this
             ->rawToEntity(
                 get_object_vars($task[0])
             );
+    }
+    private function getTaskTimers($taskId)
+    {
+        $taskTimeFinder = app(TaskTimeFinder::class);
+        return $taskTimeFinder
+            ->__invoke(new TaskId($taskId));
     }
 }

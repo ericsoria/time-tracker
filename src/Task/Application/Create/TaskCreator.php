@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use TimeTracker\Task\Application\Searcher\TaskSearcher;
 use TimeTracker\Task\Domain\Task;
 use TimeTracker\Task\Domain\TaskRepository;
+use TimeTracker\Task\Domain\ValueObjects\DateTime;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskName;
 use TimeTracker\Task\Domain\ValueObjects\TaskTimeId;
@@ -29,12 +30,12 @@ class TaskCreator
         $this->taskTimeCreator = $taskTimeCreator;
     }
 
-    public function create(TaskId $id, TaskName $name)
+    public function create(TaskId $id, TaskName $name, DateTime $dateTime)
     {
         $task = $this->taskSearcher->__invoke($name);
 
         if (is_null($task)) {
-            $task = Task::create($id, $name);
+            $task = Task::create($id, $name, $dateTime);
             $this->repository->save($task);
         }
 

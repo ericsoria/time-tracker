@@ -7,7 +7,7 @@
             <div class="col-lg-3 col-7" style="text-align: right">
                 <span class="timer">{{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}</span>
                 <button style="margin-left: 10px; margin-bottom:3px" v-if="!timer.running" :disabled="task.name === null || task.name == ''" class="btn btn-primary" @click="this.startTask">START</button>
-                <button style="margin-left: 10px; margin-bottom:3px" v-if="timer.running" class="btn btn-danger" @click="timer.running = false;">STOP</button>
+                <button style="margin-left: 10px; margin-bottom:3px" v-if="timer.running" class="btn btn-danger" @click="this.stopTask">STOP</button>
             </div>
         </div>
     </div>
@@ -20,7 +20,6 @@ export default {
         return {
             task: {
                 name: null,
-                status: null,
             },
             timer: {
                 running: false,
@@ -48,7 +47,7 @@ export default {
     },
     methods: {
          startTask() {
-             this.$store.dispatch('createTask', this.task.name);
+             this.$store.dispatch('createTask', this.task);
              const startDate = new Date();
              this.timer.running = true;
              const timeHandler = setInterval(() => {
@@ -77,7 +76,10 @@ export default {
             }, 1000)
         },
         stopTask() {
-
+            this.$store.dispatch('stopTask', this.task.name).then( () => {
+                this.$store.dispatch('getTask');
+                this.timer.running = false;
+            });
         }
     }
 }
@@ -95,7 +97,7 @@ export default {
         border-radius: 3px;
         padding: 5px;
     }
-    div.taskbar input.task-name {
+    input.task-name {
         padding: 5px;
         height: 100%;
         width: 100%;

@@ -8,10 +8,19 @@ class GetTasksController extends Controller
 {
     public function __invoke(TaskGetter $taskGetter)
     {
-        //We can use a DTO to mapper to json response automatically
-        return $taskGetter
-            ->__invoke()->map( function($item) {
-                return $item->toArray();
+        $response = [];
+        $tasks = $taskGetter->__invoke()->map( function($task) {
+            return $task->toArray();
             });
+
+        foreach ($tasks as $task) {
+            $task['taskTimers'] = $task['taskTimers']->map( function($taskTime) {
+                return $taskTime->toArray();
+            });
+            $date = new \DateTime($task['dateTime']);
+            $response[$date->format('Y-m-d')][] = $task;
+        }
+
+        return $response;
     }
 }

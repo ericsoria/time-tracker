@@ -4,43 +4,46 @@
             <div class="col-12">
                 <task-bar></task-bar>
                 <div style="margin-top: 50px">
-                    <slot v-for="task in tasks">
+                    <slot v-for="(tasksArray , date) in tasks">
                         <div class="card" style="margin: 10px 0">
                             <div class="card-header" style="font-weight: bold">
-                                {{ task.task_timers[0].dateTime | dateFormat }}
+                                {{ date | dateFormat }}
                             </div>
-                            <div class="card-body">
-                                <div class="task">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label class="counter">{{task.task_timers.length}}</label>
-                                            {{task.name}}
-                                        </div>
-                                        <div class="col-lg-6" style="text-align: right">
-                                            <span>Total: {{task.totalTime}}</span>
+                            <slot v-for="task in tasksArray">
+                                <div class="card-body">
+                                    <div class="task">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="counter">{{task.taskTimers.length}}</label>
+                                                <label style="font-weight: bold;">{{task.name}}</label>
+                                            </div>
+                                            <div class="col-lg-6" style="text-align: right">
+                                                <label class="total-time">Total time:</label>
+                                                <span style="font-weight: bold">{{task.totalTime}}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <slot v-for="(taskTime, index) in task.task_timers">
-                                        <div class="task subtask">
-                                           <div class="row">
-                                               <div class="col-lg-6 col-12 offset-lg-3" style="text-align: center">
-                                                   <label>From: </label>
-                                                   <label style="font-weight: bold">{{taskTime.startTime | formatTime}}</label>
+                                    <div>
+                                        <slot v-for="(taskTime, index) in task.taskTimers">
+                                            <div class="task subtask">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-12 offset-lg-3" style="text-align: center">
+                                                        <label>From: </label>
+                                                        <label style="font-weight: bold">{{taskTime.startTime | formatTime}}</label>
 
-                                                   <label>To: </label>
-                                                   <label style="font-weight: bold">{{taskTime.endTime | formatTime}}</label>
-                                               </div>
-                                               <div class="col-lg-3 col-12" style="text-align: center">
-                                                   <label>Time:</label>
-                                                   <label style="font-weight: bold">{{taskTime.elapsedTime}}</label>
-                                               </div>
-                                           </div>
-                                        </div>
-                                    </slot>
+                                                        <label>To: </label>
+                                                        <label style="font-weight: bold">{{taskTime.endTime | formatTime}}</label>
+                                                    </div>
+                                                    <div class="col-lg-3 col-12" style="text-align: center">
+                                                        <label>Time:</label>
+                                                        <label style="font-weight: bold">{{taskTime.elapsedTime}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </slot>
+                                    </div>
                                 </div>
-                            </div>
+                            </slot>
                         </div>
                     </slot>
                 </div>
@@ -78,8 +81,7 @@ export default {
         },
         formatTime: function (time) {
             let date = new Date(time);
-
-            return date.toLocaleTimeString([], { hour12: true});
+            return date.toLocaleTimeString([], { hour12: false});
         }
     }
 }
@@ -89,36 +91,34 @@ export default {
     #app {
         background: #f6f9fc;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         padding:20px;
     }
     .task {
+        background: whitesmoke;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
         width: 100%;
         border: 1px solid #dbdbdb;
         padding: 10px;
+        height: 45px;
     }
     .subtask {
-        background: whitesmoke;
-    }
-    label.time {
-        border: 1px solid #dbdbdb;
-        padding: 4px;
-    }
-    .time-box input {
-        display: inline;
-    }
-
-    input[type="text"]:disabled {
         background: white;
-    }
+        height: 40px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-top: none;
 
-    input[type="text"] {
-        text-align: center;
     }
     label.counter {
-        background: #a9a9a9;
+        background-color: #007bff;
         color: white;
         padding: 1px 5px;
         font-size: 10px;
+    }
+   .total-time {
+        color: #007bff;
+        font-weight: bold;
     }
 </style>
