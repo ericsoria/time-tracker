@@ -1,4 +1,4 @@
-#Time-Tracker
+# Time-Tracker
 
 Approaching way to use ports and adapters architecture on Laravel.
 For this example I don't use an ORM, Eloquent is not recommended because
@@ -18,5 +18,5 @@ is coupled with the framework, for production purpose is recommend Doctrine.
 - You can change docker service's ports on .env file
 - Make sure all files and directories have the correct permissions. 
 
-##Test
+## Test
 - docker exec time-tracker-php-fpm composer test
