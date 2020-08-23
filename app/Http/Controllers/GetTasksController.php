@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use TimeTracker\Task\Application\Getter\TaskGetter;
 
-class GetAllTaskController extends Controller
+class GetTasksController extends Controller
 {
     public function __invoke(TaskGetter $taskGetter)
     {

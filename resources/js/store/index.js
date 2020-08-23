@@ -3,10 +3,27 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    state: {},
+    state: {
+        tasks: null
+    },
     getters: {},
-    mutations: {},
-    actions: {}
+    mutations: {
+        addTasks(state, tasks) {
+            state.tasks = tasks;
+        },
+    },
+    actions: {
+        getTask(context) {
+            window.axios.get('/api/tasks').then( (response) => {
+                context.commit('addTasks', response.data);
+            });
+        },
+        createTask(context, taskName) {
+            window.axios.post('/api/tasks','name='+taskName).then( (response) => {
+                console.log(response);
+            });
+        }
+    }
 })
 
 export default store

@@ -48,9 +48,10 @@ export default {
     },
     methods: {
          startTask() {
-            const startDate = new Date();
-            this.timer.running = true;
-            const timeHandler = setInterval(() => {
+             this.$store.dispatch('createTask', this.task.name);
+             const startDate = new Date();
+             this.timer.running = true;
+             const timeHandler = setInterval(() => {
                 const now = new Date();
                 const diff = now.getTime() - startDate.getTime();
 
@@ -74,6 +75,9 @@ export default {
                 //this.timer.days = days < 10 ? '0' + days : days;
 
             }, 1000)
+        },
+        stopTask() {
+
         }
     }
 }

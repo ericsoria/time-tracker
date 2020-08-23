@@ -13,6 +13,7 @@ use TimeTracker\Task\Domain\ValueObjects\StartTime;
 use TimeTracker\Task\Domain\ValueObjects\TaskId;
 use TimeTracker\Task\Domain\ValueObjects\TaskStatus;
 use TimeTracker\Task\Domain\ValueObjects\TaskTimeId;
+use TimeTracker\Task\Domain\ValueObjects\DateTime as DomainDateTime;
 
 class TaskTimeCreator
 {
@@ -34,6 +35,7 @@ class TaskTimeCreator
         $taskTime = new TaskTime(
             $id,
             $taskId,
+            new DomainDateTime($now->format('Y-m-d H:i:s')),
             new StartTime($now->format('Y-m-d H:i:s')),
             new EndTime(null),
             new TaskStatus('running')

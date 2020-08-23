@@ -16,6 +16,7 @@ class CreateTaskTimesTable extends Migration
         Schema::create('task_times', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('task_id');
+            $table->dateTime('datetime');
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
             $table->string('status');

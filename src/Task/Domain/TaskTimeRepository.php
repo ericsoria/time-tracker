@@ -10,4 +10,5 @@ interface TaskTimeRepository
 {
     public function save(TaskTime $taskTime): void;
     public function findByTaskId(TaskId $taskId): TaskTimers;
+    public function stop(TaskTime $taskTime): void;
 }

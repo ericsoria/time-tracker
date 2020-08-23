@@ -25,8 +25,8 @@ class Task
     {
         return new self(
             $id,
-            $name.
-            new TaskTimers()
+            $name,
+            new TaskTimers([])
         );
     }
 

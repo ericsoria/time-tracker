@@ -33,12 +33,12 @@ class TaskCreator
     {
         $task = $this->taskSearcher->__invoke($name);
 
-        dd($task);
-
         if (is_null($task)) {
             $task = Task::create($id, $name);
             $this->repository->save($task);
         }
+
+        $this->ensureNoRunningTaskTimer($task);
 
         $this->taskTimeCreator
             ->create(
@@ -46,5 +46,13 @@ class TaskCreator
                 $task->id()
             );
 
+    }
+    private function ensureNoRunningTaskTimer($task): void
+    {
+        foreach ($task->taskTimers() as $taskTimer) {
+            if ($taskTimer->isRunning()) {
+                throw new \Exception('You must stop a running task after to start another one');
+            }
+        }
     }
 }
