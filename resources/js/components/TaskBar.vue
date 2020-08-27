@@ -1,10 +1,10 @@
 <template>
     <div class="taskbar">
         <div class="row">
-            <div class="col-lg-9 col-5">
+            <div class="col-xl-9 col-lg-5 col-5">
                 <input class="task-name" type="text" placeholder="What are you working on?" v-model="task.name" :disabled="timer.running">
             </div>
-            <div class="col-lg-3 col-7" style="text-align: right">
+            <div class="col-xl-3 col-lg-7 col-7" style="text-align: right">
                 <span class="timer">{{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}</span>
                 <button style="margin-left: 10px; margin-bottom:3px" v-if="!timer.running" :disabled="task.name === null || task.name == ''" class="btn btn-primary" @click="this.startTask">START</button>
                 <button style="margin-left: 10px; margin-bottom:3px" v-if="timer.running" class="btn btn-danger" @click="this.stopTask">STOP</button>
@@ -84,26 +84,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    span.timer {
-        font-size: 28px;
-    }
-    div.taskbar {
-        width: 100%;
-        border: 1px solid #dbdbdb;
-        height: 60px;
-        background: white;
-        border-radius: 3px;
-        padding: 5px;
-    }
-    input.task-name {
-        padding: 5px;
-        height: 100%;
-        width: 100%;
-        border: 0;
-    }
-    div.taskbar-controllers > button {
-        text-align: right;
-    }
-</style>

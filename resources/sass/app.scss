@@ -1,1 +1,74 @@
-//
+html, body {
+    height: 100%;
+    background: #f6f9fc;
+}
+#app {
+    background: #f6f9fc;
+    width: 100%;
+    height: 100%;
+    padding:20px;
+}
+.task {
+    background: whitesmoke;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    width: 100%;
+    border: 1px solid #dbdbdb;
+    padding: 10px;
+    height: 45px;
+}
+.subtask {
+    background: white;
+    height: 40px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: none;
+
+}
+label.counter {
+    background-color: #007bff;
+    color: white;
+    padding: 1px 5px;
+    font-size: 10px;
+}
+.total-time {
+    color: #007bff;
+    font-weight: bold;
+}
+
+span.timer {
+    font-size: 28px;
+}
+div.taskbar {
+    width: 100%;
+    border: 1px solid #dbdbdb;
+    height: 60px;
+    background: white;
+    border-radius: 3px;
+    padding: 5px;
+}
+input.task-name {
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    border: 0;
+}
+div.taskbar-controllers > button {
+    text-align: right;
+}
+
+i {
+    color: #007bff;
+}
+
+@media (max-width: 992px) {
+    div.taskbar, div.subtask {
+        height: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    span.timer {
+        font-size: 20px;
+    }
+}

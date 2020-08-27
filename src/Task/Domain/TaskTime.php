@@ -75,7 +75,7 @@ class TaskTime
 
             return $elapsedTime->format("%H:%I:%S");
         } catch(\Exception $e) {
-            echo  $e->getMessage();
+            return $elapsedTime;
         }
 
         return $elapsedTime;
