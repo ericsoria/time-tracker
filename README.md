@@ -1,9 +1,11 @@
-# Time-Tracker
+# Time-Tracker :rocket:
 
-Approaching way to use ports and adapters architecture on Laravel.
-For this example I don't use an ORM, Eloquent is not recommended because
-is coupled with the framework, for production purpose is recommend Doctrine.
+> NOT READY FOR PRODUCTION
 
+Is a **learning purpose** application developed with laravel in the backend following a hexagonal architecture appliying SOLID and good practises. And a Vue.js SPA on the front. 
+Time-Tracker is a simple app that is able to track task and show it on a minimal UI.
+
+![Time-Tracker](https://user-images.githubusercontent.com/7170812/96763817-fee23280-13d9-11eb-9d77-01bf83d26e63.png) 
 ## Setting up
 1. cp .env.example .env
 2. docker-compose up -d
